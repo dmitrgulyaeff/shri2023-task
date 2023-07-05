@@ -191,7 +191,7 @@ function Main() {
             >
               <ul className="section__panel-list">
                 {TABS[key].items.map((item, index) => (
-                  <Event key={index} {...item} onSize={hasRightScroll ?  undefined : onSize} />
+                  <Event key={index} {...item} onSize={onSize} />
                 ))}
               </ul>
             </div>
