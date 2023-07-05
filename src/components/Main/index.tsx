@@ -5,16 +5,12 @@ import { TABS, TABS_KEYS } from './constants';
 
 function Main() {
   const ref = React.useRef<HTMLDivElement>(null);
-  const initedRef = React.useRef(false);
   const [activeTab, setActiveTab] = React.useState('');
   const [hasRightScroll, setHasRightScroll] = React.useState(false);
 
   React.useEffect(() => {
-    if (!activeTab && !initedRef.current) {
-      initedRef.current = true;
-      setActiveTab(new URLSearchParams(location.search).get('tab') || 'all');
-    }
-  }, [activeTab]);
+    setActiveTab(new URLSearchParams(location.search).get('tab') || 'all');
+  }, []);
 
   const onSelectInput = (event: ChangeEvent<HTMLSelectElement>) => {
     setActiveTab(event.target.value);
