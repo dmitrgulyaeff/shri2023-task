@@ -1,6 +1,7 @@
 import React, { ChangeEvent } from 'react';
 import Event from '../Event';
 
+import Size from '../../entities/Size';
 import { TABS, TABS_KEYS } from './constants';
 
 function Main() {
@@ -12,18 +13,21 @@ function Main() {
     setActiveTab(event.target.value);
   };
 
-  let sumWidth = 0;
-  const onSize = (width: number) => {
-    if (!hasRightScroll) {
-      sumWidth += width;
-    }
+  let sizes: Size[] = React.useMemo(() => [], []);
+  const onSize = (size: Size) => {
+    sizes = [...sizes, size];
   };
 
   React.useEffect(() => {
+    const sumWidth = sizes.reduce((acc, item) => acc + item.width, 0);
+    // const sumHeight = sizes.reduce((acc, item) => acc + item.height, 0);
     if (ref.current?.offsetWidth) {
-        setHasRightScroll(sumWidth > ref.current.offsetWidth);
+      const newHasRightScroll = sumWidth > ref.current.offsetWidth;
+      if (newHasRightScroll !== hasRightScroll) {
+        setHasRightScroll(newHasRightScroll);
+      }
     }
-  }, [activeTab, sumWidth]);
+  }, [activeTab, hasRightScroll, sizes]);
 
   const onArrowCLick = () => {
     const scroller = ref?.current?.querySelector(

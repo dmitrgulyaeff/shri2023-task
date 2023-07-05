@@ -1,11 +1,11 @@
 import { useRef, useEffect } from 'react';
 
 interface EventProps {
-  onSize?: (size: number ) => void;
+  onSize?: (size: { width: number; height: number }) => void;
   slim?: boolean;
   icon: string;
   iconLabel: string;
-  title: string;
+  title?: string;
   subtitle?: string;
 }
 
@@ -17,7 +17,8 @@ function Event(props: EventProps) {
   useEffect(() => {
     if (onSize && ref.current) {
       const width = ref.current.offsetWidth;
-      onSize(width);
+      const height = ref.current.offsetHeight;
+      onSize({ width, height });
     }
   }, [onSize]);
 
